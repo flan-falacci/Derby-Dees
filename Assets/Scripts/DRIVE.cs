@@ -26,8 +26,9 @@ public class DRIVE : MonoBehaviour
     float turningSpeedtouse;
 
     public bool SparksR;
-    public bool SparksL; 
-  
+    public bool SparksL;
+
+   
 
     // Start is called before the first frame update
     void Start()
@@ -39,9 +40,7 @@ public class DRIVE : MonoBehaviour
 
         sparksL = transform.FindChild("DriftSparksL").GetComponent<ParticleSystem>();
         sparksR = transform.FindChild("DriftSparksR").GetComponent<ParticleSystem>();
-      
-
-      
+        
     }
 
     // Update is called once per frame
@@ -125,7 +124,7 @@ public class DRIVE : MonoBehaviour
 
         if ((Input.GetKey(KeyCode.Semicolon)) && (Input.GetKey(KeyCode.A)) && speed > 0)
         {
-            sparksR.Play();   
+            sparksR.Play();  
             SparksR = true; 
         }
         else
@@ -142,6 +141,29 @@ public class DRIVE : MonoBehaviour
         {
             sparksL.Stop();
             SparksL = false; 
+        }
+    }
+
+     void FixedUpdate()
+    {
+
+
+        foreach (GameObject newDerb in arena.carsList)
+        {
+
+            if (newDerb != null){
+                Renderer circleRender = newDerb.transform.FindChild("circle").GetComponent<SpriteRenderer>();
+                float dist = Vector3.Distance(newDerb.transform.position, transform.position);
+
+                if (dist < 10)
+                {
+                   
+                    circleRender.enabled = true; 
+                }else if (dist > 10)
+                {
+                    circleRender.enabled = false; 
+                }
+            }
         }
     }
 }
